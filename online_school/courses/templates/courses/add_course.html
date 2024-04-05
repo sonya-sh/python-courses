@@ -1,0 +1,13 @@
+{% extends 'home.html' %}
+
+{% block course_content %}
+    <div class="container">
+        <h1 class="mt-4 mb-4">Add Course</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Add Course</button>
+        </form>
+    </div>
+{% endblock %}

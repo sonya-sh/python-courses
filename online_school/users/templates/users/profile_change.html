@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Edit Profile</h2>
+  
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ custom_user_form.as_p }}
+    {{ profile_form.as_p }}
+    <button type="submit">Save Changes</button>
+  </form>
+
+  {% if custom_user_form.errors or profile_form.errors %}
+    <div class="error">
+      <p>Please correct the errors below:</p>
+      <ul>
+        {{ custom_user_form.errors }}
+        {{ profile_form.errors }}
+      </ul>
+    </div>
+  {% endif %}
+  
+{% endblock %}

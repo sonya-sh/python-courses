@@ -1,0 +1,17 @@
+.idea/
+
+.env
+
+# virtualenv
+/.venv/
+venv/
+ENV/
+/.vscode/
+
+.vscode/
+.pytest_cache/
+pytest.ini
+.dockerignore
+
+.env.2
+.env.2.db

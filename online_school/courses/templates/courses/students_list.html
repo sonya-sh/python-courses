@@ -1,0 +1,18 @@
+{% extends 'home.html' %}
+
+{% block course_content %}
+    <div class="container">
+        <h1 class="mt-4 mb-4">Students List</h1>
+
+        <ul class="list-group">
+            {% for enrollment in students_list %}
+                <li class="list-group-item">
+                    <h5 class="mb-1"><a href="#">{{ enrollment.student.email }}</a></h5>
+                    <p class="mb-1">Progress: {{ enrollment.get_completion_percentage }}%</p>
+                </li>
+            {% empty %}
+                <li class="list-group-item">No students</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

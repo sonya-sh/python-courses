@@ -1,0 +1,35 @@
+{% extends 'home.html' %}
+
+{% block course_content %}
+    <div class="container">
+        <h1 class="mt-4 mb-4">Courses List</h1>
+
+        {% if is_teacher %}
+        <ul class="list-group">
+            {% for course in teacher_courses_list %}
+                <li class="list-group-item">
+                    <h5 class="mb-1"><a href="{% url 'course_detail' course.id %}">{{ course.name }}</a></h5>
+                    <p class="mb-1">{{ course.description }}</p>
+                    <small>{{ course.start_date }} - {{ course.end_date }}</small>
+                </li>
+            {% empty %}
+                <li class="list-group-item">No courses available</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if is_student %}
+        <ul class="list-group">
+            {% for course in student_courses_list %}
+                <li class="list-group-item">
+                    <h5 class="mb-1"><a href="{% url 'course_detail' course.id %}">{{ course.name }}</a></h5>
+                    <p class="mb-1">{{ course.description }}</p>
+                    <small>{{ course.start_date }} - {{ course.end_date }}</small>
+                </li>
+            {% empty %}
+                <li class="list-group-item">No courses available</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+{% endblock %}

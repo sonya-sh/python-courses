@@ -1,0 +1,39 @@
+{% extends 'home.html' %}
+
+{% block course_content %}
+    <div class="container">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">
+                    {{ message|safe }}
+                    <a href="#" class="close">✖</a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <h1 class="mt-4 mb-4">Lesson Detail</h1>
+        
+            <h5 class="mb-1">{{ lesson.name }}</h5>
+            <p class="mb-1">{{ lesson.description }}</p>
+            <p class="mb-1">{{ lesson.content }}</p>
+        <ul class="list-group">
+            {% if can_mark_lesson_as_completed %}
+            <form method="post" action="{% url 'lesson_detail' course_pk=course.pk lesson_pk=lesson.pk %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+            
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="completed_checkbox" name="completed">
+                    <label class="form-check-label" for="completed_checkbox">Done</label>
+                </div>
+            
+                <button type="submit" class="btn btn-primary mt-2">Submit</button>
+            </form>
+        {% endif %}
+    
+
+        </ul>
+    </div>
+{% endblock %}

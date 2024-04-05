@@ -1,0 +1,62 @@
+{% extends 'home.html' %}
+
+{% block course_content %}
+    <div class="container">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">
+                    {{ message|safe }}
+                    <a href="#" class="close">✖</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% endif %}
+        {% if can_subscribe %}
+        <form method="post" action="{% url 'course_detail' course.id %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary mt-2">Subscribe</button>
+        </form>
+        {% endif %}
+
+        {% if can_edit %}
+        <h5 class="mb-1"><a href="{% url 'edit_course' course.id %}">Edit</a></h5>
+        <h5 class="mb-1"><a href="{% url 'add_lesson' course.id %}">Add Lesson</a></h5>
+        <h5 class="mb-1"><a href="{% url 'students_list' course.id %}">Students list</a></h5>
+        {% endif %}
+
+        <h1 class="mt-4 mb-4">Course Detail</h1>
+        
+            <h5 class="mb-1">{{ course.name }}</h5> 
+            <h3>Teachers:</h3>
+            <ul>
+                {% for teacher in teachers %}
+                    <li>{{ teacher.first_name }}</li> 
+                {% empty %}
+                    <li>No teachers assigned to this course</li>
+                {% endfor %}
+            </ul>
+
+            <p class="mb-1">{{ course.description }}</p>
+            <small>{{ course.start_date }} - {{ course.end_date }}</small>
+            
+        <ul class="list-group">
+            
+            {% for lesson in lessons_list %}
+                <li class="list-group-item">
+                    <h5 class="mb-1"><a href="{% url 'lesson_detail' course.pk lesson.pk %}">{{ lesson.name }}</a></h5>
+                    <p class="mb-1">{{ lesson.description }}</p>
+                    <p class="mb-1">{{ lesson.content }}</p>
+                </li>
+            {% empty %}
+                <li class="list-group-item">No lessons available</li>
+            {% endfor %}
+            {% if can_subscribe %}
+            <h5 class="mb-1">процент прохождения курса - {{ percent }} % </h5> 
+            {% endif %}
+
+        </ul>
+    </div>
+{% endblock %}

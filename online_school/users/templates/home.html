@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row mt-3">
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="{% url 'courses_list' %}" class="list-group-item">Все курсы</a>
+                <a href="{% url 'user_courses_list' %}" class="list-group-item">Мои курсы</a>
+                <!-- Другие ссылки для боковой панели, если необходимо -->
+            </div>
+        </div>
+        <div class="col-md-9">
+            {% block course_content %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

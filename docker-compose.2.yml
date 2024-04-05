@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    container_name: online_school_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5434:5432"
+    volumes:
+      - db_data2:/var/lib/postgresql/data
+    env_file:
+      - ./.env.2.db
+
+  pgadmin:
+
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "5052:80"
+
+  web:
+    build:
+      context: ./online_school
+      dockerfile: Dockerfile
+    command: gunicorn online_school.wsgi:application --bind 0.0.0.0:8000
+    restart: always
+    #ports:
+    #  - "8002:8000"
+    expose:
+      - 8000
+    env_file:
+      - ./.env.2
+    depends_on:
+      - db
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+
+volumes:
+  db_data2:
